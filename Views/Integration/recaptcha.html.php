@@ -40,6 +40,12 @@ $jsElement = <<<JSELEMENT
 </script>
 JSELEMENT;
 
+$html = <<<HTML
+    {$jsElement}
+	<div $containerAttr>
+        {$label}
+HTML;
+
 $JSSrc = "";
 if($field['customParameters']['version'] == 'v2') {
     $JSSrc = "https://www.google.com/recaptcha/api.js";
@@ -66,12 +72,6 @@ function recaptchaCheck(checkbox) {
 </div>
 <span class="mauticform-errormsg" style="display: none;"></span>
 <?php
-
-$html = <<<HTML
-    {$jsElement}
-	<div $containerAttr>
-        {$label}
-HTML;
 
 if($field['customParameters']['version'] == 'v2') {
 $html .= <<<HTML
