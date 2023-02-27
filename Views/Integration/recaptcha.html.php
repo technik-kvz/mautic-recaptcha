@@ -46,6 +46,18 @@ $html = <<<HTML
         {$label}
 HTML;
 
+if($field['customParameters']['version'] == 'v2') {
+$html .= <<<HTML
+<div class="g-recaptcha" data-sitekey="{$field['customParameters']['site_key']}" data-callback="verifyCallback_{$hashedFormName}"></div>
+HTML;
+}
+
+$html .= <<<HTML
+        <input $inputAttr type="hidden">
+    </div>
+HTML;
+?>
+
 $JSSrc = "";
 if($field['customParameters']['version'] == 'v2') {
     $JSSrc = "https://www.google.com/recaptcha/api.js";
@@ -72,20 +84,6 @@ function recaptchaCheck(checkbox) {
 </div>
 <span class="mauticform-errormsg" style="display: none;"></span>
 <?php
-
-if($field['customParameters']['version'] == 'v2') {
-$html .= <<<HTML
-<div class="g-recaptcha" data-sitekey="{$field['customParameters']['site_key']}" data-callback="verifyCallback_{$hashedFormName}"></div>
-HTML;
-}
-
-$html .= <<<HTML
-        <input $inputAttr type="hidden">
-    </div>
-HTML;
-?>
-
-
 
 <?php
 echo $html;
