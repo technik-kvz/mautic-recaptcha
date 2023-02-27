@@ -62,7 +62,7 @@ function recaptchaCheck(checkbox) {
 </script>
 <div id="captcha_request">
 <input type="checkbox" id="recapchacheck" name="recapchacheck" value="OK" onchange="recaptchaCheck(this);">
-<label for="recapchacheck">Wenn Sie dieses Häkchen setzen, erlauben Sie das Nachladen von einem Captcha von google.com. HINWEIS: hierbei setzt Google Cookies ein!</label>
+<label for="recapchacheck">Wenn Sie dieses Häkchen setzen, erlauben Sie das Nachladen von einem Captcha von google.com.<br />HINWEIS: hierbei setzt Google Cookies ein!</label>
 </div>
 <?php
 
