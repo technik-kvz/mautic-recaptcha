@@ -40,15 +40,31 @@ $jsElement = <<<JSELEMENT
 </script>
 JSELEMENT;
 
+$JSSrc = "";
 if($field['customParameters']['version'] == 'v2') {
-$jsElement .= <<<JSELEMENT
-<script src='https://www.google.com/recaptcha/api.js'></script>
-JSELEMENT;
+    $JSSrc = "https://www.google.com/recaptcha/api.js";
 } else {
-$jsElement .= <<<JSELEMENT
-<script src='https://www.google.com/recaptcha/api.js?onload=onLoad{$hashedFormName}&render={$field['customParameters']['site_key']}'></script>
-JSELEMENT;
+    $JSSrc = "https://www.google.com/recaptcha/api.js?onload=onLoad{$hashedFormName}&render={$field['customParameters']['site_key']}";
 }
+?>
+<script>
+function recaptchaCheck(checkbox) {
+    if(checkbox.checked == true){
+        var el = document.getElementById("captcha_request");
+        if (el) {
+            el.innerHTML = "";
+            var sc = document.createElement("script");
+            sc.src = "<?php echo $JSSrc; ?>";
+            el.appendChild(sc);
+        }
+    }
+}
+</script>
+<div id="captcha_request">
+<input type="checkbox" id="recapchacheck" name="recapchacheck" value="OK" onchange="recaptchaCheck(this);">
+<label for="recapchacheck"> Nachladen von Captcha von google.com (Achtung: hierbei setzt Google cookies ein!)</label>
+</div>
+<?php
 
 $html = <<<HTML
     {$jsElement}
