@@ -40,32 +40,36 @@ $jsElement = <<<JSELEMENT
 </script>
 JSELEMENT;
 
+$JSSrc = "";
+if($field['customParameters']['version'] == 'v2') {
+    $JSSrc = "https://www.google.com/recaptcha/api.js";
+} else {
+    $JSSrc = "https://www.google.com/recaptcha/api.js?onload=onLoad{$hashedFormName}&render={$field['customParameters']['site_key']}";
+}
+?>
+<script>
+function recaptchaCheck(checkbox) {
+    if(checkbox.checked == true){
+	var el = document.getElementById("captcha_request");
+	if (el) {
+	    el.innerHTML = "";
+	    var sc = document.createElement("script");
+	    sc.src = "<?php echo $JSSrc; ?>";
+	    el.appendChild(sc);
+	}
+    }
+}
+</script>
+<div id="captcha_request">
+<input type="checkbox" id="recapchacheck" name="recapchacheck" value="OK" onchange="recaptchaCheck(this);">
+<label for="recapchacheck">Wenn Sie dieses Häkchen setzen, erlauben Sie das Nachladen von einem Captcha von google.com.<br />HINWEIS: hierbei setzt Google Cookies ein!</label>
+</div>
+<span class="mauticform-errormsg" style="display: none;"></span>
+<?php
+
 $html = <<<HTML
     {$jsElement}
-	<div $containerAttr>$JSSrc = "";
-		<?php if($field['customParameters']['version'] == 'v2') {
-		    $JSSrc = "https://www.google.com/recaptcha/api.js";
-		} else {
-		    $JSSrc = "https://www.google.com/recaptcha/api.js?onload=onLoad{$hashedFormName}&render={$field['customParameters']['site_key']}";
-		}
-		?>
-		<script>
-		function recaptchaCheck(checkbox) {
-		    if(checkbox.checked == true){
-			var el = document.getElementById("captcha_request");
-			if (el) {
-			    el.innerHTML = "";
-			    var sc = document.createElement("script");
-			    sc.src = "<?php echo $JSSrc; ?>";
-			    el.appendChild(sc);
-			}
-		    }
-		}
-		</script>
-		<div id="captcha_request">
-		<input type="checkbox" id="recapchacheck" name="recapchacheck" value="OK" onchange="recaptchaCheck(this);">
-		<label for="recapchacheck">Wenn Sie dieses Häkchen setzen, erlauben Sie das Nachladen von einem Captcha von google.com.<br />HINWEIS: hierbei setzt Google Cookies ein!</label>
-		</div>
+	<div $containerAttr>
         {$label}
 HTML;
 
@@ -77,7 +81,6 @@ HTML;
 
 $html .= <<<HTML
         <input $inputAttr type="hidden">
-        <span class="mauticform-errormsg" style="display: none;"></span>
     </div>
 HTML;
 ?>
