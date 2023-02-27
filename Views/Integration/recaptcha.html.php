@@ -40,30 +40,19 @@ $jsElement = <<<JSELEMENT
 </script>
 JSELEMENT;
 
-$html = <<<HTML
-    {$jsElement}
-	<div $containerAttr>
-        {$label}
-HTML;
-
-if($field['customParameters']['version'] == 'v2') {
-$html .= <<<HTML
-<div class="g-recaptcha" data-sitekey="{$field['customParameters']['site_key']}" data-callback="verifyCallback_{$hashedFormName}"></div>
-HTML;
-}
-
-$html .= <<<HTML
-        <input $inputAttr type="hidden">
-    </div>
-HTML;
-?>
-
 $JSSrc = "";
 if($field['customParameters']['version'] == 'v2') {
     $JSSrc = "https://www.google.com/recaptcha/api.js";
 } else {
     $JSSrc = "https://www.google.com/recaptcha/api.js?onload=onLoad{$hashedFormName}&render={$field['customParameters']['site_key']}";
 }
+
+$html = <<<HTML
+    {$jsElement}
+	<div $containerAttr>
+        {$label}
+HTML;
+
 ?>
 <script>
 function recaptchaCheck(checkbox) {
@@ -82,10 +71,24 @@ function recaptchaCheck(checkbox) {
 <input type="checkbox" id="recapchacheck" name="recapchacheck" value="OK" onchange="recaptchaCheck(this);">
 <label for="recapchacheck">Wenn Sie dieses Häkchen setzen, erlauben Sie das Nachladen von einem Captcha von google.com.<br />HINWEIS: hierbei setzt Google Cookies ein!</label>
 </div>
-<span class="mauticform-errormsg" style="display: none;"></span>
 <?php
+
+$html .= <<<HTML
+<div style="position: relative;top:25px;padding-bottom:25px"><span class="mauticform-errormsg" style="display: none;"></span></div>
+HTML;
+
+if($field['customParameters']['version'] == 'v2') {
+$html .= <<<HTML
+<div class="g-recaptcha" data-sitekey="{$field['customParameters']['site_key']}" data-callback="verifyCallback_{$hashedFormName}"></div>
+HTML;
+}
+
+$html .= <<<HTML
+        <input $inputAttr type="hidden">
+    </div>
+HTML;
+?>
 
 <?php
 echo $html;
 ?>
-
