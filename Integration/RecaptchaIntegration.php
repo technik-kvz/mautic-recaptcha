@@ -48,7 +48,7 @@ class RecaptchaIntegration extends AbstractIntegration
      * @param array            $data
      * @param string           $formArea
      */
-    public function appendToForm(&$builder, $data, $formArea): void
+    public function appendToForm(&$builder, $data, $formArea)
     {
         if ($formArea === 'keys') {
             $builder->add(
