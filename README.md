@@ -1,4 +1,4 @@
-# Mautic reCAPTCHA Plugin
+# Mautic reCAPTCHA Plugin - Variante vder KVZ mit zusätzlicher Abfrage um Google erst nach Klick nachzuladen
 
 [![license](https://img.shields.io/packagist/v/koco/mautic-recaptcha-bundle.svg)](https://packagist.org/packages/koco/mautic-recaptcha-bundle) 
 [![Packagist](https://img.shields.io/packagist/l/koco/mautic-recaptcha-bundle.svg)](LICENSE)
