@@ -1,16 +1,16 @@
 <?php
 
 /*
- * @copyright   2018 Konstantin Scheumann. All rights reserved
- * @author      Konstantin Scheumann
+ * @copyright   2024 Konstantin Scheumann. All rights reserved
+ * @author      Michael Bredereck
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 return [
     'name'        => 'reCAPTCHA',
     'description' => 'Enables reCAPTCHA integration.',
-    'version'     => '1.0',
-    'author'      => 'Konstantin Scheumann',
+    'version'     => '2.0',
+    'author'      => 'Michael Bredereck',
 
     'routes' => [
 
@@ -31,6 +31,8 @@ return [
         ],
         'models' => [
 
+        ],
+        'forms' => [
         ],
         'others'=>[
             'mautic.recaptcha.service.recaptcha_client' => [

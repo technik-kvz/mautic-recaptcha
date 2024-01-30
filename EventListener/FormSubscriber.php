@@ -21,10 +21,11 @@ use MauticPlugin\MauticRecaptchaBundle\Form\Type\RecaptchaType;
 use MauticPlugin\MauticRecaptchaBundle\Integration\RecaptchaIntegration;
 use MauticPlugin\MauticRecaptchaBundle\RecaptchaEvents;
 use MauticPlugin\MauticRecaptchaBundle\Service\RecaptchaClient;
+use MauticPlugin\MauticRecaptchaBundle\Helper\RecaptchaHelper;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Mautic\PluginBundle\Integration\AbstractIntegration;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Mautic\CoreBundle\Translation\Translator;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FormSubscriber implements EventSubscriberInterface
 {
@@ -61,7 +62,7 @@ class FormSubscriber implements EventSubscriberInterface
     private $leadModel;
 
     /**
-     * @var Translator
+     * @var TranslatorInterface
      */
     private $translator;
 
@@ -75,14 +76,14 @@ class FormSubscriber implements EventSubscriberInterface
      * @param IntegrationHelper        $integrationHelper
      * @param RecaptchaClient          $recaptchaClient
      * @param LeadModel                $leadModel
-     * @param Translator               $translator
+     * @param TranslatorInterface      $translator
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         IntegrationHelper $integrationHelper,
         RecaptchaClient $recaptchaClient,
         LeadModel $leadModel,
-        Translator $translator
+        TranslatorInterface $translator
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->recaptchaClient = $recaptchaClient;
@@ -127,7 +128,7 @@ class FormSubscriber implements EventSubscriberInterface
         $event->addFormField('plugin.recaptcha', [
             'label'          => 'mautic.plugin.actions.recaptcha',
             'formType'       => RecaptchaType::class,
-            'template'       => 'MauticRecaptchaBundle:Integration:recaptcha.html.php',
+            'template'       => '@MauticRecaptcha/Form/recaptcha.html.php',
             'builderOptions' => [
                 'addLeadFieldList' => false,
                 'addIsRequired'    => false,
@@ -136,6 +137,7 @@ class FormSubscriber implements EventSubscriberInterface
             ],
             'site_key' => $this->siteKey,
             'version'  => $this->version,
+            'php_code' => RecaptchaHelper::getPhp(null, null, /*$event, $this, */array($this->siteKey, $this->version)),
         ]);
 
         $event->addValidator('plugin.recaptcha.validator', [
@@ -153,11 +155,14 @@ class FormSubscriber implements EventSubscriberInterface
             return;
         }
 
+        $str = $this->translator === null ? 'reCAPTCHA was not successful.' : $this->translator->trans('mautic.integration.recaptcha.failure_message');
         if ($this->recaptchaClient->verify($event->getValue(), $event->getField())) {
             return;
+        } else {
+            /*$str .= ": Event.Value(" . var_export($event->getValue(), true) . "), Event.Field(" . var_export($event->getField(), true) . ")";*/
         }
 
-        $event->failedValidation($this->translator === null ? 'reCAPTCHA was not successful.' : $this->translator->trans('mautic.integration.recaptcha.failure_message'));
+        $event->failedValidation($str);
 
         $this->eventDispatcher->addListener(LeadEvents::LEAD_POST_SAVE, function (LeadEvent $event) {
             if ($event->isNew()){
