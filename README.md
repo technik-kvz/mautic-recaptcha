@@ -6,16 +6,6 @@
 
 This Plugin brings reCAPTCHA integration to mautic 3 and 4.
 
-## Installation via composer (preferred)
-### mautic 2 (legacy)
-This only supports reCaptcha v2.
-
-Execute `composer require koco/mautic-recaptcha-bundle:1.*` in the main directory of the mautic installation.
-### mautic 3 & 4
-Supports reCaptcha v2 and v3.
-
-Execute `composer require koco/mautic-recaptcha-bundle:3.*` in the main directory of the mautic installation.
-
 ## Installation via .zip
 Download the .zip file, extract it into the `plugins/` directory and rename the new directory to `MauticRecaptchaBundle`.
 
