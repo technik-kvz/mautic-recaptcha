@@ -4,13 +4,24 @@
 [![Packagist](https://img.shields.io/packagist/l/koco/mautic-recaptcha-bundle.svg)](LICENSE)
 [![mautic](https://img.shields.io/badge/mautic-3%20&%204-blue.svg)](https://www.mautic.org/mixin/recaptcha/)
 
-This Plugin brings reCAPTCHA integration to mautic 3 and 4.
+This Plugin brings reCAPTCHA integration to mautic 3, 4 and 5.
+
+## Installation via composer (preferred)
+### mautic 2 (legacy)
+This only supports reCaptcha v2.
+
+Execute `composer require koco/mautic-recaptcha-bundle:1.*` in the main directory of the mautic installation.
+### mautic 3 & 4
+Supports reCaptcha v2 and v3.
+
+Execute `composer require koco/mautic-recaptcha-bundle:3.*` in the main directory of the mautic installation.
 
 ## Installation via .zip
 Download the .zip file, extract it into the `plugins/` directory and rename the new directory to `MauticRecaptchaBundle`.
 
 * Download for mautic 2 (legacy): [mautic-recaptcha-legacy.zip](https://github.com/KonstantinCodes/mautic-recaptcha/archive/1.1.3.zip)
 * Download for mautic 3 & 4: [mautic-recaptcha.zip](https://github.com/KonstantinCodes/mautic-recaptcha/archive/master.zip)
+* **Download for mautic 5**: [mautic-recaptcha.zip](https://codeload.github.com/technik-kvz/mautic-recaptcha/zip/refs/heads/mautic5)
 
 Clear the cache via console command `php app/console cache:clear --env=prod` (might take a while) *OR* manually delete the `app/cache/prod` directory.
 
